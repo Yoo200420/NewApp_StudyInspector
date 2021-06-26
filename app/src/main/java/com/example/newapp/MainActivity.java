@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         button_GoogleLogin=findViewById(R.id.Btn_GoogleLogin);
         button_GoogleLogin.setSize(SignInButton.SIZE_STANDARD);
 
-        mOAuthLoginButton=(OAuthLoginButton)findViewById(R.id.Btn_NaverLogin);
+       // mOAuthLoginButton=(OAuthLoginButton)findViewById(R.id.Btn_NaverLogin);
 
 
 
@@ -122,14 +122,7 @@ public class MainActivity extends AppCompatActivity
 
         //button_NaverLogin.setOAuthLoginHandler();
 
-        mOAuthLoginButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
 
-            }
-        });
 
 
     }
