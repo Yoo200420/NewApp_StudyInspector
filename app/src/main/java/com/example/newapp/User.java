@@ -3,15 +3,20 @@ package com.example.newapp;
 
 import android.graphics.Color;
 
+import com.nhn.android.naverlogin.data.OAuthLoginState;
+
 import java.util.List;
 
 public class User
 {
 
     private String userId;
+    private String platformType;
     private String name;
     private boolean manOrWoman;
     private int age;
+
+    private String Access_Token;
 
     private String nickName;
     private String category;
@@ -26,6 +31,7 @@ public class User
 
     public User(
             String userId,
+            String platformType,
             String name,
             boolean manOrWoman,
             int age,
@@ -35,6 +41,7 @@ public class User
     )
     {
         this.userId = userId;
+        this.platformType = platformType;
         this.name = name;
         this.manOrWoman = manOrWoman;
         this.age = age;
@@ -48,6 +55,7 @@ public class User
 
     public static User newInstance
             (String userId,
+             String platformType,
              String name,
              boolean manOrWoman,
              int age,
@@ -56,50 +64,24 @@ public class User
              String region
             )
     {
-        if (category=="ElementarySchool")
-            return new ElementarySchool(userId,name,manOrWoman,age,nickName,category,region);
+        if (platformType=="GoogleUser")
+            return new GoogleUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
 
-        else if(category=="MiddleSchool_1")
-            return new MiddleSchool_1(userId,name,manOrWoman,age,nickName,category,region);
+        else if(platformType=="NaverUser")
+            return new NaverUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
 
-        else if(category=="MiddleSchool_2")
-            return new MiddleSchool_2(userId,name,manOrWoman,age,nickName,category,region);
+        else if(platformType=="KakaoUser")
+            return new KakaoUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
 
-        else if(category=="MiddleSchool_3")
-            return new MiddleSchool_3(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="HighSchool_1")
-            return new HighSchool_1(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="HighSchool_2")
-            return new HighSchool_2(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="HighSchool_3")
-            return new HighSchool_3(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="HighSchool_N")
-            return new HighSchool_N(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="University")
-            return new University(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="GraduateSchool")
-            return new GraduateSchool(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="PublicOfficial")
-            return new PublicOfficial(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="SpecializedJob")
-            return new SpecializedJob(userId,name,manOrWoman,age,nickName,category,region);
-
-        else if(category=="Others")
-            return new Others(userId,name,manOrWoman,age,nickName,category,region);
+        else if(platformType=="FacebookUser")
+            return new FacebookUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
         else
             return new User();
     }
 
 
     public String getUserId() {return userId;}
+    public String getPlatformType() {return platformType;}
     public String getName() {return name;}
     public boolean isManOrWoman() {return manOrWoman;}
     public int getAge() {return age;}
@@ -127,135 +109,53 @@ public class User
                 '}';
     }
 
-    private static class ElementarySchool extends User
+    private static class GoogleUser extends User
     {
-        public ElementarySchool(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
+        public GoogleUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
+        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
 
         @Override
         public String toString()
-        {return "ElementarySchool [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
+        {return "GoogleUser [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
 
     }
 
-    private static class MiddleSchool_1 extends User
+    private static class NaverUser extends User
     {
-        public MiddleSchool_1(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
+        private long expiresAt;
+        private String refreshToken;
+        private OAuthLoginState state;
+
+
+        public NaverUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
+        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
 
         @Override
         public String toString()
-        {return "MiddleSchool_1 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
+        {return "NaverUser [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
     }
 
-    private static class MiddleSchool_2 extends User
+    private static class KakaoUser extends User
     {
-        public MiddleSchool_2(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
+        public KakaoUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
+        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
 
         @Override
         public String toString()
-        {return "MiddleSchool_2 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
+        {return "KakaoUser [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
     }
 
-    private static class MiddleSchool_3 extends User
+    private static class FacebookUser extends User
     {
-        public MiddleSchool_3(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
+        private String expiresIn;
+        private String signedRequest;
+
+        public FacebookUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
+        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
 
         @Override
         public String toString()
-        {return "MiddleSchool_3 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class HighSchool_1 extends User
-    {
-        public HighSchool_1(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "HighSchool_1 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class HighSchool_2 extends User
-    {
-        public HighSchool_2(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "HighSchool_2 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class HighSchool_3 extends User
-    {
-        public HighSchool_3(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "HighSchool_3 [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class HighSchool_N extends User
-    {
-        public HighSchool_N(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "HighSchool_N [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class University extends User
-    {
-        public University(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "University [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class GraduateSchool extends User
-    {
-        public GraduateSchool(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "GraduateSchool [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class PublicOfficial  extends User
-    {
-        public PublicOfficial(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "PublicOfficial [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class SpecializedJob  extends User
-    {
-        public SpecializedJob(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "SpecializedJob [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
-    }
-
-    private static class Others  extends User
-    {
-        public Others(String userId, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, name,  manOrWoman,  age,  nickName,  category,  region);}
-
-        @Override
-        public String toString()
-        {return "Others [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
+        {return "FacebookUser [toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()="+ hashCode() + "]";}
     }
 
 }

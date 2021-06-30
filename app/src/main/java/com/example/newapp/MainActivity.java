@@ -264,6 +264,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
+
+
+
+
+
+
     @Override
     protected void onStart()
     {
@@ -299,7 +307,6 @@ public class MainActivity extends AppCompatActivity
             Log.d("Account_Info", account.getFamilyName().toString());
             Log.d("Account_Info", account.getGivenName().toString());
             Log.d("Account_Info", account.getId().toString());
-
 
 
 
