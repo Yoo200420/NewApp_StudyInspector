@@ -27,58 +27,52 @@ public class User
     private List<String> listOfInspector;
 
 
-    public User() {}
+    public User(String platformType) {}
 
-    public User(
-            String userId,
-            String platformType,
-            String name,
-            boolean manOrWoman,
-            int age,
-            String nickName,
-            String category,
-            String region
-    )
-    {
-        this.userId = userId;
-        this.platformType = platformType;
-        this.name = name;
-        this.manOrWoman = manOrWoman;
-        this.age = age;
-        this.nickName = nickName;
-        this.category = category;
-        //this.statusMessage = statusMessage;
-        this.region = region;
-        //this.backGroundColor = backGroundColor;
-        //this.listOfInspector = listOfInspector;
-    }
 
-    public static User newInstance
+
+    public void setOthers
             (String userId,
-             String platformType,
              String name,
              boolean manOrWoman,
              int age,
              String nickName,
              String category,
-             String region
-            )
+             String region)
     {
-        if (platformType=="GoogleUser")
-            return new GoogleUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
-
-        else if(platformType=="NaverUser")
-            return new NaverUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
-
-        else if(platformType=="KakaoUser")
-            return new KakaoUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
-
-        else if(platformType=="FacebookUser")
-            return new FacebookUser(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);
-        else
-            return new User();
+        setUserId(userId);
+        setName(name);
+        setManOrWoman(manOrWoman);
+        setAge(age);
+        setNickName(nickName);
+        setCategory(category);
+        setRegion(region);
     }
 
+    public static User newInstance(String platformType)
+    {
+        if (platformType=="GoogleUser")
+            return new GoogleUser(platformType);
+
+        else if(platformType=="NaverUser")
+            return new NaverUser(platformType);
+
+        else if(platformType=="KakaoUser")
+            return new KakaoUser(platformType);
+
+        else if(platformType=="FacebookUser")
+            return new FacebookUser(platformType);
+        else
+            return new User("Itself");
+    }
+
+    private void setUserId(String userId) { this.userId = userId; }
+    private void setName(String name) { this.name = name; }
+    private void setManOrWoman(boolean manOrWoman) { this.manOrWoman = manOrWoman; }
+    private void setAge(int age) { this.age = age; }
+    private void setNickName(String nickName) { this.nickName = nickName; }
+    private void setCategory(String category) { this.category = category; }
+    private void setRegion(String region) { this.region = region; }
 
     public String getUserId() {return userId;}
     public String getPlatformType() {return platformType;}
@@ -111,8 +105,10 @@ public class User
 
     private static class GoogleUser extends User
     {
-        public GoogleUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
+        private long expiresAt;
+        private String refreshToken;
+
+        public GoogleUser(String platformType) { super(platformType); }
 
         @Override
         public String toString()
@@ -127,8 +123,10 @@ public class User
         private OAuthLoginState state;
 
 
-        public NaverUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
+        public NaverUser(String platformType)
+        {
+            super(platformType);
+        }
 
         @Override
         public String toString()
@@ -137,8 +135,13 @@ public class User
 
     private static class KakaoUser extends User
     {
-        public KakaoUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
+        private long expiresAt;
+        private String refreshToken;
+
+        public KakaoUser(String platformType)
+        {
+            super(platformType);
+        }
 
         @Override
         public String toString()
@@ -148,10 +151,11 @@ public class User
     private static class FacebookUser extends User
     {
         private String expiresIn;
+        private String refreshToken;
         private String signedRequest;
 
-        public FacebookUser(String userId, String platformType, String name, boolean manOrWoman, int age, String nickName, String category, String region)
-        {super(userId, platformType, name,  manOrWoman,  age,  nickName,  category,  region);}
+        public FacebookUser(String platformType)
+        {super(platformType);}
 
         @Override
         public String toString()

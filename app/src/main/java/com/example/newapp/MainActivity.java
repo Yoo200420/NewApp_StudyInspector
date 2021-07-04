@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity
     private static TextView mOauthExpires;
     private static TextView mOauthTokenType;
     private static TextView mOAuthState;
+    private static TextView mOAuthID;
+
+
 
 
 
@@ -171,6 +174,18 @@ public class MainActivity extends AppCompatActivity
                 String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
+
+                Log.d("here", accessToken);
+
+                //mOAuthLoginInstance.requestApi(mContext,accessToken,"https://openapi.naver.com/v1/nid/me");
+
+
+
+
+
+
+
+
                 mOauthAT.setText(accessToken);
                 mOauthRT.setText(refreshToken);
                 mOauthExpires.setText(String.valueOf(expiresAt));
@@ -190,6 +205,7 @@ public class MainActivity extends AppCompatActivity
         switch (v.getId()) {
             case R.id.buttonOAuth: {
                 mOAuthLoginInstance.startOauthLoginActivity(MainActivity.this, mOAuthLoginHandler);
+
                 break;
             }
             case R.id.buttonVerifier: {
