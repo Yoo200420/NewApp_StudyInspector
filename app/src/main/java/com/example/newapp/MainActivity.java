@@ -50,7 +50,9 @@ public class MainActivity extends AppCompatActivity
     private static TextView mOAuthState;
     private static TextView mOAuthID;
 
+    private static String staticAccessToken;
 
+    private static Button doInBackGround;
 
 
 
@@ -125,7 +127,19 @@ public class MainActivity extends AppCompatActivity
 
         //button_NaverLogin.setOAuthLoginHandler();
 
+        Log.d("here", "onCreate");
 
+
+        doInBackGround.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("here","btn_doInBackGround");
+                NaverMemberProfile naverMemberProfile = new NaverMemberProfile();
+                naverMemberProfile.execute(staticAccessToken);
+            }
+        });
 
 
     }
@@ -155,6 +169,8 @@ public class MainActivity extends AppCompatActivity
         mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.Btn_NaverLogin);
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
 
+        doInBackGround = (Button) findViewById(R.id.doInBackGround) ;
+
         updateView();
     }
 
@@ -166,10 +182,13 @@ public class MainActivity extends AppCompatActivity
         mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
     }
 
-    static private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
+    static private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler()
+    {
         @Override
-        public void run(boolean success) {
-            if (success) {
+        public void run(boolean success)
+        {
+            if (success)
+            {
                 String accessToken = mOAuthLoginInstance.getAccessToken(mContext);
                 String refreshToken = mOAuthLoginInstance.getRefreshToken(mContext);
                 long expiresAt = mOAuthLoginInstance.getExpiresAt(mContext);
@@ -177,21 +196,18 @@ public class MainActivity extends AppCompatActivity
 
                 Log.d("here", accessToken);
 
+                staticAccessToken=accessToken;
+
                 //mOAuthLoginInstance.requestApi(mContext,accessToken,"https://openapi.naver.com/v1/nid/me");
-
-
-
-
-
-
-
-
                 mOauthAT.setText(accessToken);
                 mOauthRT.setText(refreshToken);
                 mOauthExpires.setText(String.valueOf(expiresAt));
                 mOauthTokenType.setText(tokenType);
                 mOAuthState.setText(mOAuthLoginInstance.getState(mContext).toString());
-            } else {
+
+            }
+            else
+                {
                 String errorCode = mOAuthLoginInstance.getLastErrorCode(mContext).getCode();
                 String errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext);
                 Toast.makeText(mContext, "errorCode:" + errorCode + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT).show();
@@ -230,12 +246,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private class DeleteTokenTask extends AsyncTask<Void, Void, Void> {
+    private class DeleteTokenTask extends AsyncTask<Void, Void, Void>
+    {
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(Void... params)
+        {
             boolean isSuccessDeleteToken = mOAuthLoginInstance.logoutAndDeleteToken(mContext);
 
-            if (!isSuccessDeleteToken) {
+            if (!isSuccessDeleteToken)
+            {
                 // 서버에서 token 삭제에 실패했어도 클라이언트에 있는 token 은 삭제되어 로그아웃된 상태이다
                 // 실패했어도 클라이언트 상에 token 정보가 없기 때문에 추가적으로 해줄 수 있는 것은 없음
                 Log.d("Naver", "errorCode:" + mOAuthLoginInstance.getLastErrorCode(mContext));

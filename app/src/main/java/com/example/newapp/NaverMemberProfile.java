@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NaverMemberProfile
+public class NaverMemberProfile extends AsyncTask<String,String,String>
 {
     private String Access_Token;
     private String header;
@@ -24,30 +24,29 @@ public class NaverMemberProfile
     private String responseBody;
     private Handler NaverHandler;
 
+    public NaverMemberProfile() { }
 
-
-
-
-
-    public NaverMemberProfile(String access_Token)
+    @Override
+    protected String doInBackground(String... strings)
     {
-        Access_Token = access_Token;
+        Access_Token = strings[0];
         header = "Bearer " + Access_Token;
-        Log.d("here", access_Token);
-    }
 
-    public void getNaverMemberProfile()
-    {
+
         Map<String, String> requestHeaders = new HashMap<>();
 
         requestHeaders.put("Authorization", header);
 
         //responseBody = get(apiURL,requestHeaders);
-        get(apiURL,requestHeaders);
-        // String[] array= responseBody.split("\"");
-        // Log.d("here",array[13].toString());
-        //Log.d("here",array[17].toString());
+        responseBody= get(apiURL,requestHeaders);
+        String[] array= responseBody.split("\"");
+        Log.d("here",array[13].toString());
+        Log.d("here",array[17].toString());
+
+        return null;
     }
+
+
 
 
     private static String get(String apiUrl, Map<String, String> requestHeaders)
@@ -56,7 +55,7 @@ public class NaverMemberProfile
 
         try
         {
-            Log.d("here", "get");
+
             con.setRequestMethod("GET");
 
 
@@ -95,7 +94,7 @@ public class NaverMemberProfile
     {
         try
         {
-            Log.d("here", "connect");
+
             URL url = new URL(apiUrl);
             return (HttpURLConnection)url.openConnection();
         }
@@ -118,7 +117,7 @@ public class NaverMemberProfile
 
         try (BufferedReader lineReader = new BufferedReader(streamReader))
         {
-            Log.d("here", "readBody");
+
             StringBuilder responseBody = new StringBuilder();
 
 
@@ -136,6 +135,8 @@ public class NaverMemberProfile
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
+
+
 
 
 }
