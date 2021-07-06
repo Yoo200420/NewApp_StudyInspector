@@ -1,6 +1,8 @@
 package com.example.newapp;
 
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -20,6 +22,10 @@ public class NaverMemberProfile
     private final String apiURL = "https://openapi.naver.com/v1/nid/me";
 
     private String responseBody;
+    private Handler NaverHandler;
+
+
+
 
 
 
